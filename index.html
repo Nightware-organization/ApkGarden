@@ -339,7 +339,7 @@
         </div>
         <div class="app-grid" id="app-grid" aria-live="polite"></div>
         <div class="empty-state" id="empty-state"><div class="empty-symbol">✳</div><h3 id="empty-title">Nothing growing here yet.</h3><p id="empty-copy">Try another search, or be the first to plant something.</p><button class="button button-tonal" id="empty-upload" style="margin-top:17px">Share an app</button></div>
-        <div class="note-strip" id="preview-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><div><strong>Design preview.</strong> These example listings are fictional and are only here to show the layout. Connect the backend to load published apps and enable real accounts and uploads.</div></div>
+        <div class="note-strip" id="preview-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><div><strong>Community listings.</strong> Only approved APKs from the connected database appear here. Connect Supabase to enable real accounts and uploads.</div></div>
       </div>
     </section>
 
@@ -370,8 +370,30 @@
         <div class="field"><label for="auth-email">Email address</label><input id="auth-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></div>
         <div class="field"><label for="auth-password">Password</label><input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="At least 8 characters"></div>
         <button class="button button-primary full-button" id="auth-submit" type="submit">Sign in</button>
+        <button class="button button-quiet full-button" id="forgot-password" type="button">Forgot password?</button>
       </form>
       <p class="form-footnote" id="auth-footnote">Your account is handled by the connected authentication provider. This page never stores your password itself.</p>
+    </div>
+  </dialog>
+
+  <dialog id="account-dialog" aria-labelledby="account-title">
+    <div class="dialog-head"><div><h2 id="account-title">Your garden account</h2><p>Manage your profile, password, and submissions.</p></div><button class="dialog-close" data-close="account-dialog" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12m0-12L6 18"/></svg></button></div>
+    <div class="dialog-body">
+      <p class="form-footnote" id="account-email"></p>
+      <p class="form-error" id="account-message" role="status" hidden></p>
+      <form id="profile-form">
+        <div class="field"><label for="profile-name">Display name</label><input id="profile-name" maxlength="40" minlength="2" required placeholder="Your display name"></div>
+        <button class="button button-primary full-button" type="submit" id="profile-save">Save profile</button>
+      </form>
+      <div class="section-kicker" style="margin-top:24px">Change password</div>
+      <form id="password-form">
+        <div class="field"><label for="new-password">New password</label><input id="new-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="At least 8 characters"></div>
+        <div class="field"><label for="confirm-password">Confirm new password</label><input id="confirm-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" required placeholder="Type it again"></div>
+        <button class="button button-outline full-button" type="submit" id="password-save">Update password</button>
+      </form>
+      <div class="section-kicker" style="margin-top:24px">My submissions</div>
+      <div id="my-submissions" class="form-footnote">Your submissions will appear here after loading.</div>
+      <button class="button button-quiet full-button" id="sign-out-button" type="button" style="margin-top:18px">Sign out</button>
     </div>
   </dialog>
 
@@ -393,9 +415,9 @@
           <div class="field"><label for="source-url">Source code URL</label><input id="source-url" name="sourceUrl" type="url" maxlength="500" placeholder="https://github.com/you/project"></div>
           <div class="field full"><label for="icon-url">App icon URL (optional)</label><input id="icon-url" name="iconUrl" type="url" maxlength="500" placeholder="https://example.com/icon.png"><small>Use a direct HTTPS link to an image. If omitted, the listing gets a generated icon.</small></div>
         </div>
-        <div class="field"><label>APK file *</label><label class="drop-zone" id="drop-zone" for="apk-file"><span class="drop-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></span><strong id="drop-title">Choose an APK or drop it here</strong><span id="drop-subtitle">APK files only · 150 MB maximum</span><input id="apk-file" name="apkFile" class="file-input" type="file" accept=".apk,application/vnd.android.package-archive" required></label></div>
+        <div class="field"><label>APK file *</label><label class="drop-zone" id="drop-zone" for="apk-file"><span class="drop-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m-5 5 5-5 5 5"/><path d="M5 14v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5"/></svg></span><strong id="drop-title">Choose an APK or drop it here</strong><span id="drop-subtitle">APK files only · 50 MB maximum</span><input id="apk-file" name="apkFile" class="file-input" type="file" accept=".apk,application/vnd.android.package-archive" required></label></div>
         <button class="button button-primary full-button" id="upload-submit" type="submit">Submit for review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
-        <p class="form-footnote">By submitting, you confirm you have the rights to distribute this APK. Submissions enter a review queue before they become public. Maximum file size: 150 MB.</p>
+        <p class="form-footnote">By submitting, you confirm you have the rights to distribute this APK. Submissions enter a review queue before they become public. Maximum file size on Supabase Free: 50 MB.</p>
       </form>
     </div>
   </dialog>
@@ -417,9 +439,9 @@
   <script type="module">
     // 1) Create a Supabase project, run schema.sql, then paste the project URL and anon/publishable key here.
     // Never put a service_role key in this file. GitHub Pages files are public.
-    const SUPABASE_URL = "https://bsertjnkdbhcsyhrqzpt.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_6iBav2bIS4ha9-68WGZvcw_H_VAsAp0";
-    const MAX_APK_BYTES = 150 * 1024 * 1024;
+    const SUPABASE_URL = "";
+    const SUPABASE_ANON_KEY = "";
+    const MAX_APK_BYTES = 50 * 1024 * 1024;
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -431,6 +453,7 @@
     const toast = $("#toast");
     const authDialog = $("#auth-dialog");
     const uploadDialog = $("#upload-dialog");
+    const accountDialog = $("#account-dialog");
     const detailDialog = $("#detail-dialog");
     let supabase = null;
     let backendConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
@@ -442,15 +465,8 @@
     let visibleApps = [];
     let toastTimeout;
 
-    const demoApps = [
-      { id: "demo-1", app_name: "Orbit Notes", package_name: "dev.orbit.notes", version_name: "1.4.0", category: "Productivity", description: "A calm, local-first notebook for little ideas and big plans. Fast search, tidy folders, and a writing space that stays out of your way.", tags: ["notes", "offline", "minimal"], license: "MIT", downloads_count: 1840, icon_emoji: "✎", icon_bg: "linear-gradient(145deg,#cbbcff,#55418b)", sample: true },
-      { id: "demo-2", app_name: "Shell Garden", package_name: "app.shellgarden.mobile", version_name: "0.9.2", category: "Tools", description: "A small collection of thoughtful tools for Android tinkerers, from quick text helpers to everyday device utilities.", tags: ["utilities", "power-user"], license: "Open source", downloads_count: 960, icon_emoji: "⌘", icon_bg: "linear-gradient(145deg,#a6ecd5,#287666)", sample: true },
-      { id: "demo-3", app_name: "Mellow", package_name: "audio.mellow.player", version_name: "2.1.1", category: "Media", description: "A cozy player concept for your own music library, with a focused interface and carefully chosen details.", tags: ["music", "player"], license: "Not specified", downloads_count: 1320, icon_emoji: "♫", icon_bg: "linear-gradient(145deg,#ffd2a4,#a34d74)", sample: true },
-      { id: "demo-4", app_name: "Pixel Pets", package_name: "fun.pixelpets.android", version_name: "1.2.0", category: "Games", description: "A tiny pocket garden where pixel creatures wander around and keep you company between tasks.", tags: ["pixel-art", "casual"], license: "Not specified", downloads_count: 730, icon_emoji: "✿", icon_bg: "linear-gradient(145deg,#ffb8d0,#9c527c)", sample: true },
-      { id: "demo-5", app_name: "Hue Studio", package_name: "design.huestudio", version_name: "1.0.3", category: "Personalization", description: "Build harmonious palettes for wallpapers, icons, and themes. Save the colors you love and revisit them later.", tags: ["themes", "colors"], license: "Apache-2.0", downloads_count: 560, icon_emoji: "◉", icon_bg: "linear-gradient(145deg,#f7cd87,#af7039)", sample: true },
-      { id: "demo-6", app_name: "Pocket Atlas", package_name: "maps.pocketatlas", version_name: "0.8.4", category: "Tools", description: "A concept for saving useful places and notes without turning a simple list into a complicated project.", tags: ["organizer", "simple"], license: "MIT", downloads_count: 410, icon_emoji: "⌖", icon_bg: "linear-gradient(145deg,#b7d6ff,#526ca8)", sample: true }
-    ];
-    let allApps = [...demoApps];
+    // No placeholder listings: the garden stays empty until Supabase returns published community uploads.
+    let allApps = [];
 
     function showToast(message, success = false) {
       toast.innerHTML = success ? `<strong>All set.</strong> ${escapeText(message)}` : escapeText(message);
@@ -493,7 +509,7 @@
       if (currentUser) {
         const label = currentUser.user_metadata?.display_name || currentUser.email?.split("@")[0] || "Account";
         button.textContent = label.length > 17 ? `${label.slice(0, 15)}…` : label;
-        button.title = `${currentUser.email || "Signed in"} · Click to sign out`;
+        button.title = `${currentUser.email || "Signed in"} · Open account settings`;
         button.classList.add("button-tonal");
       } else {
         button.textContent = "Sign in";
@@ -546,7 +562,7 @@
       card.setAttribute("aria-label", `View details for ${app.app_name}`);
       const top = document.createElement("div"); top.className = "card-top";
       top.append(createIcon(app));
-      const tag = document.createElement("span"); tag.className = app.sample ? "tag" : "tag new"; tag.textContent = app.sample ? "Sample" : app.category; top.append(tag);
+      const tag = document.createElement("span"); tag.className = "tag new"; tag.textContent = app.category; top.append(tag);
       const title = document.createElement("h3"); title.textContent = app.app_name;
       const pkg = document.createElement("div"); pkg.className = "package"; pkg.textContent = app.package_name;
       const description = document.createElement("p"); description.className = "app-description"; description.textContent = app.description;
@@ -577,13 +593,13 @@
         $("#empty-title").textContent = "The garden is waiting.";
         $("#empty-copy").textContent = query || activeCategory !== "All" ? "No published apps match this filter. Try a different search." : "No published apps yet. Submit an app and approve it in your database to get started.";
       } else {
-        $("#empty-title").textContent = "Nothing growing here yet.";
-        $("#empty-copy").textContent = "Try another search, or be the first to plant something.";
+        $("#empty-title").textContent = backendConfigured ? "The garden is waiting." : "No community apps yet.";
+        $("#empty-copy").textContent = backendConfigured ? "No published apps match this filter. Try another search, or be the first to share an app." : "Connect the database to show published community uploads here. No sample apps are displayed.";
       }
     }
     async function loadApps() {
       if (!supabase) {
-        allApps = [...demoApps];
+        allApps = [];
         previewNote.hidden = false;
         renderApps();
         return;
@@ -655,10 +671,10 @@
         if (url && safeHttpUrl(url)) { link.href = url; link.hidden = false; } else { link.removeAttribute("href"); link.hidden = true; }
       }
       const downloadButton = $("#detail-download");
-      downloadButton.disabled = app.sample || !app.apk_path || !supabase;
-      downloadButton.textContent = app.sample ? "Sample listing — no APK attached" : "Download APK";
+      downloadButton.disabled = !app.apk_path || !supabase;
+      downloadButton.textContent = "Download APK";
       downloadButton.onclick = async () => {
-        if (app.sample || !app.apk_path || !supabase) return;
+        if (!app.apk_path || !supabase) return;
         // Open the tab during the click gesture, then send it to a short-lived signed URL.
         // This lets the storage bucket stay private so pending submissions are not public downloads.
         const downloadTab = window.open("about:blank", "_blank");
@@ -705,7 +721,7 @@
         supabase = null;
         backendError = `Backend initialization failed: ${error?.message || "Unknown error"}`;
         setBackendState();
-        allApps = [...demoApps];
+        allApps = [];
         previewNote.hidden = false;
         renderApps();
       }
@@ -725,10 +741,65 @@
     ["#header-upload", "#hero-upload", "#section-upload", "#banner-upload", "#empty-upload"].forEach(selector => $(selector).addEventListener("click", openUpload));
     $("#account-button").addEventListener("click", async () => {
       if (!currentUser) { openAuth(false); return; }
+      await openAccountSettings();
+    });
+    $("#sign-out-button").addEventListener("click", async () => {
       if (!supabase) return;
       const { error } = await supabase.auth.signOut();
-      if (error) showToast(`Couldn't sign out: ${error.message}`);
-      else { currentUser = null; updateAccountButton(); showToast("You’re signed out.", true); }
+      if (error) { setFormMessage("#account-message", `Couldn't sign out: ${error.message}`); return; }
+      currentUser = null; updateAccountButton(); accountDialog.close(); showToast("You’re signed out.", true);
+    });
+    async function openAccountSettings() {
+      if (!supabase || !currentUser) return;
+      $("#account-email").textContent = `Signed in as ${currentUser.email || "your account"}`;
+      $("#profile-name").value = currentUser.user_metadata?.display_name || "";
+      $("#new-password").value = ""; $("#confirm-password").value = "";
+      setFormMessage("#account-message", "");
+      $("#my-submissions").textContent = "Loading your submissions…";
+      if (!accountDialog.open) accountDialog.showModal();
+      try {
+        const { data, error } = await supabase.from("apps").select("id,app_name,package_name,version_name,status,created_at").eq("owner_id", currentUser.id).order("created_at", { ascending: false }).limit(50);
+        if (error) throw error;
+        if (!data?.length) { $("#my-submissions").textContent = "No submissions yet. Upload an APK and it will show here while it waits for review."; return; }
+        $("#my-submissions").innerHTML = data.map(app => `<div style="padding:12px 0;border-bottom:1px solid var(--outline)"><strong>${escapeText(app.app_name)}</strong><div>${escapeText(app.package_name)} · v${escapeText(app.version_name || "—")}</div><small>Status: ${escapeText(app.status || "pending")}</small></div>`).join("");
+      } catch (error) { $("#my-submissions").textContent = `Couldn’t load submissions: ${error.message}. Check the apps table SELECT policy for your own submissions.`; }
+    }
+    $("#profile-form").addEventListener("submit", async event => {
+      event.preventDefault(); if (!supabase || !currentUser) return;
+      const name = $("#profile-name").value.trim();
+      const button = $("#profile-save"); button.disabled = true; button.textContent = "Saving…";
+      try {
+        const { data, error } = await supabase.auth.updateUser({ data: { display_name: name } });
+        if (error) throw error;
+        currentUser = data.user || currentUser; updateAccountButton(); setFormMessage("#account-message", "Profile updated.", "success");
+      } catch (error) { setFormMessage("#account-message", `Profile update failed: ${error.message}`); }
+      finally { button.disabled = false; button.textContent = "Save profile"; }
+    });
+    $("#password-form").addEventListener("submit", async event => {
+      event.preventDefault(); if (!supabase || !currentUser) return;
+      const password = $("#new-password").value;
+      if (password !== $("#confirm-password").value) { setFormMessage("#account-message", "The passwords do not match."); return; }
+      const button = $("#password-save"); button.disabled = true; button.textContent = "Updating…";
+      try {
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) throw error;
+        $("#new-password").value = ""; $("#confirm-password").value = "";
+        setFormMessage("#account-message", "Password updated successfully.", "success");
+      } catch (error) { setFormMessage("#account-message", `Password update failed: ${error.message}`); }
+      finally { button.disabled = false; button.textContent = "Update password"; }
+    });
+    $("#forgot-password").addEventListener("click", async () => {
+      if (!supabase) { setFormMessage("#auth-message", backendError || "Connect Supabase first."); return; }
+      const email = $("#auth-email").value.trim();
+      if (!email) { setFormMessage("#auth-message", "Enter your account email first, then tap Forgot password again."); $("#auth-email").focus(); return; }
+      const button = $("#forgot-password"); button.disabled = true; button.textContent = "Sending reset email…";
+      try {
+        const redirectTo = `${location.origin}${location.pathname}`;
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+        if (error) throw error;
+        setFormMessage("#auth-message", "If an account exists for that email, a password-reset link has been sent. Check your inbox and spam folder.", "success");
+      } catch (error) { setFormMessage("#auth-message", `Couldn’t send reset email: ${error.message}`); }
+      finally { button.disabled = false; button.textContent = "Forgot password?"; }
     });
     $$("[data-close]").forEach(button => button.addEventListener("click", () => $(`#${button.dataset.close}`).close()));
     $$("[data-auth-mode]").forEach(button => button.addEventListener("click", () => setAuthMode(button.dataset.authMode)));
@@ -777,7 +848,7 @@
     const apkInput = $("#apk-file");
     const dropZone = $("#drop-zone");
     function displaySelectedFile(file) {
-      if (!file) { $("#drop-title").textContent = "Choose an APK or drop it here"; $("#drop-subtitle").textContent = "APK files only · 150 MB maximum"; return; }
+      if (!file) { $("#drop-title").textContent = "Choose an APK or drop it here"; $("#drop-subtitle").textContent = "APK files only · 50 MB maximum"; return; }
       $("#drop-title").textContent = file.name;
       $("#drop-subtitle").textContent = `${(file.size / (1024 * 1024)).toFixed(1)} MB · ready to submit`;
     }
@@ -798,7 +869,7 @@
       const file = apkInput.files?.[0];
       if (!file) { setFormMessage("#upload-message", "Choose an APK file first."); return; }
       if (!file.name.toLowerCase().endsWith(".apk")) { setFormMessage("#upload-message", "Only files ending in .apk are allowed."); return; }
-      if (file.size < 1 || file.size > MAX_APK_BYTES) { setFormMessage("#upload-message", "APK must be smaller than 150 MB."); return; }
+      if (file.size < 1 || file.size > MAX_APK_BYTES) { setFormMessage("#upload-message", "APK must be 50 MB or smaller on the Supabase Free plan."); return; }
       const packageName = $("#package-name").value.trim();
       if (!/^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/.test(packageName)) { setFormMessage("#upload-message", "Enter a valid lowercase package ID, such as com.example.myapp."); return; }
       const websiteUrl = $("#website-url").value.trim();
@@ -840,7 +911,13 @@
         $("#upload-form").reset(); displaySelectedFile(null);
         showToast("Your APK is uploaded and waiting for review. It will appear once approved.", true);
       } catch (error) {
-        setFormMessage("#upload-message", `Upload failed: ${error?.message || "Please try again."}`);
+        const raw = error?.message || "Please try again.";
+        let hint = "";
+        if (/row-level security|permission denied|not allowed|403/i.test(raw)) hint = " Check Supabase Storage INSERT policy for authenticated users and the apps table INSERT policy (owner_id must equal auth.uid()).";
+        else if (/bucket|object not found/i.test(raw)) hint = " Check that a private Storage bucket named apks exists.";
+        else if (/column|schema cache|does not exist/i.test(raw)) hint = " The apps table columns may not match schema.sql; run the current schema in Supabase SQL Editor.";
+        else if (/payload too large|maximum allowed|413/i.test(raw)) hint = " Supabase Free uploads are limited here to 50 MB.";
+        setFormMessage("#upload-message", `Upload failed: ${raw}${hint}`);
       } finally {
         submit.disabled = false; submit.innerHTML = 'Submit for review <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';
       }
