@@ -1,6 +1,6 @@
 >[!NOTICE]
 >that OG notal (Note stacks) is still live on
->**Link** https://nightware-organization.github.io/note-stacks/
+>https://nightware-organization.github.io/note-stacks/
 
 **link**
 https://nightware-organization.github.io/PowerSpace/
