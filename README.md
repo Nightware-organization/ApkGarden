@@ -8,27 +8,27 @@ Official Website: https://nightware-organization.github.io/PowerSpace/
 
 ---
 
-«[IMPORTANT]
-Platform Availability
+<«[IMPORTANT]
+<Platform Availability
 
-Nightware PowerSpace is publicly accessible. Certain features, including application submissions and account-related functionality, may depend on backend availability and the current platform implementation.»
+<Nightware PowerSpace is publicly <accessible. Certain features, including <application submissions and account-related <functionality, may depend on backend <availability and the current platform <implementation.»
 
 «[NOTE]
-Original Notal Project
+<Original Notal Project
+<
+<The original Notal (Note Stacks) project remains available independently of PowerSpace.
+<
+<https://nightware-organization.github.io/note-stacks/»
 
-The original Notal (Note Stacks) project remains available independently of PowerSpace.
+<«[TIP]
+<For Independent Developers
+<
+<Developers interested in sharing their applications can visit PowerSpace and use the submission functionality where available. Please ensure that submitted information is accurate and that distribution rights are respected.»
 
-https://nightware-organization.github.io/note-stacks/»
+<«[WARNING]
+<Third-Party Applications
 
-«[TIP]
-For Independent Developers
-
-Developers interested in sharing their applications can visit PowerSpace and use the submission functionality where available. Please ensure that submitted information is accurate and that distribution rights are respected.»
-
-«[WARNING]
-Third-Party Applications
-
-Applications distributed through community submissions may be developed and maintained by independent contributors. Users should evaluate application permissions, sources, and security considerations before installation.»
+<Applications distributed through community submissions may be developed and maintained by independent contributors. Users should evaluate application permissions, sources, and security considerations before installation.»
 
 ---
 
